@@ -1,0 +1,245 @@
+/*
+*{
+	margin:0;
+	padding:0;
+	font-family:'Calibri';
+	font-size:18px;
+	user-select: none;
+}
+
+html, body{
+	height:100%;
+}
+
+body{
+	background-color:#F8F8F8;
+}
+
+nav ul{
+	cursor:pointer;
+}
+
+nav ul li{
+	float:left;
+	list-style:none;
+	background-color:#EFEFEF;
+	padding-top:2%;
+	padding-bottom:2%;
+	color:#111111;
+	width:25%;
+	text-align:center;
+	text-shadow: 0.1px 0.1px #333;
+	border-left:1px solid #CCC;
+	border-bottom:1px solid #CCC;
+}
+
+nav ul li:hover{
+	background-color:#D5D5D5;
+	box-shadow:2px 1px 0.5em #2C74AF;
+}
+
+.icones_menu{
+	background-size: 20px 20px;
+    background-repeat: no-repeat;
+	margin:0 auto;
+	width:20px;
+	height:20px;
+}
+
+.texto-button{
+    font-size: 10px;
+}
+
+#icone_linha{
+	background-image:url(../img/icone_linhas.png);
+}
+
+#icone_ruas{
+	background-image:url(../img/icone_ruas.png);
+}
+
+#icone_favoritos{
+	background-image:url(../img/icone_favoritos.png);
+}
+
+#subMenu{
+	width:100%;
+	margin-top:15px;
+	float:left;
+}
+
+.subMenus{
+	width:25%;
+	text-align:center;
+	float:left;
+	background-color:#EFEFEF;
+	padding-top:2%;
+	padding-bottom:2%;
+	color:#111111;
+	text-shadow: 0.1px 0.1px #333;
+	cursor:pointer;
+}
+
+.subMenus:hover{
+	background-color:#D5D5D5;
+}
+
+#subMenu-linhas{
+	margin-left:25%;
+	border:1px solid #CCC;
+	border-radius: 5px 0px 0px 5px;
+}
+
+#subMenu-ruas{
+	border-right:1px solid #CCC;
+	border-top:1px solid #CCC;
+	border-bottom:1px solid #CCC;
+	border-radius: 0px 5px 5px 0px;
+}
+
+
+
+#mapa{
+	width:100%;
+	height:77%;
+	float:left;
+}
+
+#botao_parada{
+	float:left;
+	width:100%;
+	height:8%;
+    z-index:1;
+	background-color:#3498db;
+	color:#FFF;
+	font-size:20px;
+	border:2px solid #3498db;
+	outline:none;
+}
+
+#comboLinhas{
+	width:100%;
+	height:8%;
+	border:none;
+	padding-left:10px;
+	font-size:19px;
+	background-color:#FFF;
+}
+
+#botao_parada:hover{
+	background-color:#2980b9;
+}
+*/
+
+html, body{
+	height:100%;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: sans-serif;
+}
+    
+
+#mapa{
+	width:100%;
+	height:90%;
+	float:left;
+}
+
+nav#menu-principal {
+    background-color: #3498db;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+ul#menu-lista {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    font-size: 10px;
+}
+
+ul#menu-lista li {
+    background-color: #3498db;
+    display: inline-block;
+    padding-top: 1px;
+    width: 33%;
+    height: 32px;
+    text-align: center;
+    margin: 0;
+}
+
+ul#menu-lista li#selecionada {
+    background-color: #2980b9;
+}
+
+select#comboLinhas{
+    width: 100%;
+}
+
+.icone_linhas{
+   background:url(../img/icone_linhas.png) no-repeat center bottom;
+}  
+
+.icone_ruas{
+   background:url(../img/icone_ruas.png) no-repeat center bottom;
+} 
+
+.icone_favoritos{
+   background:url(../img/icone_favoritos.png) no-repeat center bottom;
+} 
+
+.icone_configs{
+   background:url(../img/icone_linhas.png) no-repeat center bottom;
+} 
+
+/*
+    Linhas de origem e destino
+*/
+
+#origemDestino {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+#origem {
+    margin: 0;
+    padding: 0;
+    display: inline;
+    color: #3498db;
+    font-weight: bold;
+}
+
+#origemLinha {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+#destino {
+    margin: 0;
+    padding: 0;
+    display: inline;
+    color: #f6796c;
+    font-weight: bold;
+}
+
+#destinoLinha {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+#fav {
+    font-size: 30px;
+    position: fixed;
+    margin-top: 70px;
+    margin-left: 10px;
+    padding: 0;
+}

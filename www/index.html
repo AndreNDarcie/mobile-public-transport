@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" href="css/planejador-viagens.css" />
+		<script src="db/teste.json"></script>
+		<link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" href="css/leaflet-routing-machine.css" />
+
+        <script type="text/javascript" src="js/leaflet.js"></script>
+        <script src="js/leaflet-routing-machine.min.js"></script>
+
+        <title>Linhas</title>
+
+    </head>
+<body>
+	<div id="planejador-viagens" style="display: none"> ⬅ Planejador de Viagens</div>
+	<div id="lista-melhores-linhas" style="display: none"></div>
+    <div id="mensagem-planejador-viagens" style="display: none">Mensagem de ajuda</div>
+    <nav id="menu-principal">
+        <!--
+        <ul>
+            <a href="index.html"><li id="btn_linhas"><div class="icones_menu" id="icone_linha"></div><p class="texto-button">Linhas</p></li></a>
+            <a href="ruas.html"><li id="btn_ruas"><div class="icones_menu" id="icone_ruas"></div><p class="texto-button">Ruas</p></li></a>
+            <a href="favoritos.html"><li id="btn_favoritos"><div class="icones_menu" id="icone_favoritos"></div><p class="texto-button">Favoritos</p></li></a>
+            <a href="favoritos.html"><li id="btn_favoritos"><div class="icones_menu" id="icone_favoritos"></div><p class="texto-button">Favoritos</p></li></a>
+        </ul>
+        -->
+        <ul id="menu-lista">
+            <li id="selecionada" class="icone_linhas"><a href="index.html">Linhas</a></li>
+            <li class="icone_ruas"><a href="ruas.html">Ruas</a></li>
+            <li class="icone_favoritos"><a href="favoritos.html">Favoritos</a></li>
+        </ul>
+    </nav>
+    <select id="comboLinhas"></select>
+    <div id="origemDestino">
+        <div><p id="origem">Origem: </p><p id="origemLinha"></p></div>
+        <div><p id="destino">Destino: </p><p id="destinoLinha"></p></div>
+    </div>
+    <!-- <button id="botao_parada">PROGRAMAR-PARADA</button> -->
+    <div id="mapa"></div>
+    <div id="fav">✰</div>
+	<button onclick="iniciarPlanejadorViagens()">Planejador de Viagens</button>
+	<script type="text/javascript" src="js/index.js"></script>
+	<!-- <script type="text/javascript" src="js/favoritos.js"></script> -->
+	<script type="text/javascript" src="js/planejador-viagens.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+#planejador-viagens {
+	width: 100%;
+	height: 22px;
+	background-color: #3498db;
+	color: white;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-weight: bold;
+    box-shadow:0 5px 5px rgba(0,0,0,.05);
+    border-bottom: 1px solid #aaa;
+}
+
+#mensagem-planejador-viagens {
+	width: 100%;
+	height: 35px;
+	background-color: white;
+	font-size: 80%;
+    border-bottom: 1px solid #3498db;
+
+    padding: 5px 1px 8px 2px;
+}
+
+.cor-origem {
+	color: #2980b9;
+}
+
+.cor-destino {
+	color: #e95849;
+}
+
+/*  Tabela de linhas  */
+table {
+    background-color: #F3F3F2; 
+    width:100%; 
+    text-align: center;
+    font-size: 75%;
+}
+
+tr {cursor: pointer}
+
+tr:nth-child(even){background-color: #E6E6E6}
+
+th {
+    background-color: #3498db; 
+    color: white;
+}
+
+button {
+  color: #fff;
+  background-color: #68b2e4;
+  text-shadow: -1px 1px #417cb8;
+  font-family: "Mono";
+  text-align: left;
+  width: 100%;
+  height: 18px;
+  
+  border: none;
+
+}
+
+.linha-selecionada-partida {
+    background-color: #2980b9;
+    color: white;
+}
+
+.linha-selecionada-chegada {
+    background-color: #ec6d60;
+    color: white;
+}
+
+span.icon {
+    font-size: 110%; 
+    font-weight: bold;
+    padding: 1px;
+    color: white;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    background-color: #3498db;
+    border-radius: 50%;
+    width: 18px;
+    display: inline-block;
+    margin: 1px;
+    text-align: center;
+    margin-right: 2px;
+}

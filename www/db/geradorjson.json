@@ -1,0 +1,60 @@
+//Codigo necessario para gerar dados na estrutura do JSON
+//site do gerador: http://www.json-generator.com/
+
+[
+   {
+  Linhas: [
+    '{{repeat(2)}}',
+    {
+      nome: "LINHA " + '{{company().toUpperCase()}}',
+      tipo: '{{random("A", "T", "P", "R", "N", "F")}}',
+      sentidos: [
+        {
+          sentido: '{{random("Norte", "Sul", "Leste", "Oeste", "Centro")}}',
+          pontos: [
+            '{{repeat(2)}}',
+            {
+              nome: '{{street()}}',
+              bairro: '{{city()}}',
+              rua: '{{street()}}',
+              numero: '{{integer(0, 1000)}}',
+              lat: '{{floating(-90.000001, 90)}}',
+              long: '{{floating(-180.000001, 180)}}',
+              horariosSegSex: [
+                '{{repeat(8)}}',
+                '{{integer(0, 24)}}' + ":" + '{{integer(0, 60)}}'
+              ],
+              horariosSabDom : [
+                '{{repeat(8)}}',
+                '{{integer(0, 24)}}' + ":" + '{{integer(0, 60)}}'
+              ]
+            }
+          ]
+        },
+        {
+          sentido: '{{random("Norte", "Sul", "Leste", "Oeste", "Centro")}}',
+          pontos: [
+            '{{repeat(2)}}',
+            {
+              nome: '{{street()}}',
+              bairro: '{{city()}}',
+              rua: '{{street()}}',
+              numero: '{{integer(0, 1000)}}',
+              lat: '{{floating(-90.000001, 90)}}',
+              long: '{{floating(-180.000001, 180)}}',
+              horariosSegSex: [
+                '{{repeat(8)}}',
+                '{{integer(0, 24)}}' + ":" + '{{integer(0, 60)}}'
+              ],
+              horariosSabDom : [
+                '{{repeat(8)}}',
+                '{{integer(0, 24)}}' + ":" + '{{integer(0, 60)}}'
+              ]
+            }
+          ]
+        }
+    ]
+  }
+]
+}
+]
