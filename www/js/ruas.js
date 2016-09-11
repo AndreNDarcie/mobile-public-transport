@@ -1,8 +1,10 @@
 //Le o JSON do arquivo database.json
-var obj = pontosDB
+var obj = pontosDB;
 
 var listaLinhas = document.getElementById("linhas");
-listaLinhas.onclick = function () { selecionarLinha(event) };
+listaLinhas.onclick = function() {
+    selecionarLinha(event);
+};
 
 function selecionarLinha(event) {
     var target = event.target || event.srcElement;

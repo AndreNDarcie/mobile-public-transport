@@ -35,57 +35,61 @@ var pontoPartida;
 var pontoChegada;
 
 
-function iniciarPlanejadorViagens(){
+function iniciarPlanejadorViagens() {
 
-	document.getElementById("menu-principal").style.display = 'none';
-	document.getElementById("comboLinhas").style.display = 'none';
-	document.getElementById("origemDestino").style.display = 'none';
-	document.getElementById("fav").style.display = 'none';
+    document.getElementById("menu-principal").style.display = 'none';
+    document.getElementById("comboLinhas").style.display = 'none';
+    document.getElementById("origemDestino").style.display = 'none';
+    document.getElementById("fav").style.display = 'none';
 
-	document.getElementById("planejador-viagens").style.display = 'block';
-	mensagem.style.display = 'block';
+    document.getElementById("planejador-viagens").style.display = 'block';
+    mensagem.style.display = 'block';
 
-	mensagem.innerHTML = "<div><span class='icon'>i</span>Toque no mapa para escolher o ponto de <span class='cor-origem'>partida</span>!</div>" +
-	                     "<div style='font-size: 90%;'><input type='checkbox' value='GPS'> Local atual </div>" ;
+    mensagem.innerHTML = "<div><span class='icon'>i</span>Toque no mapa para escolher o ponto de <span class='cor-origem'>partida</span>!</div>" +
+        "<div style='font-size: 90%;'><input type='checkbox' value='GPS'> Local atual </div>";
 }
 
-map.on('click', function (e) {
+map.on('click', function(e) {
 
-	marcadorDinamico = e.latlng;
+    marcadorDinamico = e.latlng;
 
-	if (!baldeacaoAtiva){
+    if (!baldeacaoAtiva) {
 
-		listaMelhoresLinhas.innerHTML = "";
+        listaMelhoresLinhas.innerHTML = "";
 
-		if (pontoAtual == ""){
-			marcadorPartida = L.marker(marcadorDinamico, { icon: busIconOrigem }).addTo(map)
-			.bindPopup("<span class='cor-origem'>Partida</span>");
+        if (pontoAtual === "") {
+            marcadorPartida = L.marker(marcadorDinamico, {
+                    icon: busIconOrigem
+                }).addTo(map)
+                .bindPopup("<span class='cor-origem'>Partida</span>");
 
-			pontoPartida = marcadorDinamico;
-			mudarEstadoPlanejadorViajens("partida");
+            pontoPartida = marcadorDinamico;
+            mudarEstadoPlanejadorViajens("partida");
 
-			pontoAtual = "Partida";
+            pontoAtual = "Partida";
 
 
-		} else if (pontoAtual == "Partida"){
-			marcadorChegada = L.marker(marcadorDinamico, { icon: busIconDestino }).addTo(map)
-			.bindPopup("<span class='cor-destino'>Chegada</span>");
+        } else if (pontoAtual == "Partida") {
+            marcadorChegada = L.marker(marcadorDinamico, {
+                    icon: busIconDestino
+                }).addTo(map)
+                .bindPopup("<span class='cor-destino'>Chegada</span>");
 
-			pontoChegada = marcadorDinamico;
-			mudarEstadoPlanejadorViajens("partida-chegada");
-			pontoAtual = "Chegada";
+            pontoChegada = marcadorDinamico;
+            mudarEstadoPlanejadorViajens("partida-chegada");
+            pontoAtual = "Chegada";
 
-		} else if (pontoAtual == "Chegada"){
+        } else if (pontoAtual == "Chegada") {
 
-			map.removeLayer(marcadorPartida);
-			map.removeLayer(marcadorChegada);
+            map.removeLayer(marcadorPartida);
+            map.removeLayer(marcadorChegada);
 
-			mensagem.style.height = '32px';
-			mensagem.innerHTML = "<div><span class='icon'>i</span>Toque no mapa para escolher o ponto de <span class='cor-origem'>partida</span>!</div>" +
-								 "<div style='font-size: 90%;'><input type='checkbox' value='GPS'> Local atual </div>" ;
-			pontoAtual = "";
-		}
-	}
+            mensagem.style.height = '32px';
+            mensagem.innerHTML = "<div><span class='icon'>i</span>Toque no mapa para escolher o ponto de <span class='cor-origem'>partida</span>!</div>" +
+                "<div style='font-size: 90%;'><input type='checkbox' value='GPS'> Local atual </div>";
+            pontoAtual = "";
+        }
+    }
 });
 
 /*
@@ -96,39 +100,39 @@ var estadoPlanejadorViagens = "";
 function mudarEstadoPlanejadorViajens(estadoAtual) {
 
 
-	listaMelhoresLinhas.style.display = 'block';
-	baldeacaoAtiva = false;
+    listaMelhoresLinhas.style.display = 'block';
+    baldeacaoAtiva = false;
 
-	switch (estadoAtual){
-	    case "partida":
+    switch (estadoAtual) {
+        case "partida":
 
-	        gerarTabelaLinhasProximasPartida();
+            gerarTabelaLinhasProximasPartida();
 
-		    mensagem.style.height = '28px';
-		    mensagem.innerHTML = "<span class='icon'>i</span>Toque no mapa para escolher o ponto de <span class='cor-destino'>chegada</span>!";
+            mensagem.style.height = '28px';
+            mensagem.innerHTML = "<span class='icon'>i</span>Toque no mapa para escolher o ponto de <span class='cor-destino'>chegada</span>!";
 
-		    estadoPlanejadorViagens = "partida";
-		break;
-		case "partida-chegada":
+            estadoPlanejadorViagens = "partida";
+            break;
+        case "partida-chegada":
 
-		    gerarTabelaLinhasProximasPartidaChegada();
+            gerarTabelaLinhasProximasPartidaChegada();
 
-		    mensagem.style.height = '18px';
-		    mensagem.innerHTML = "<div><span class='icon'>i</span>Toque novamente no mapa para reiniciar!</div>";
+            mensagem.style.height = '18px';
+            mensagem.innerHTML = "<div><span class='icon'>i</span>Toque novamente no mapa para reiniciar!</div>";
 
-			estadoPlanejadorViagens = "partida-chegada";
-		break;
-		case "baldeacao":
-			baldeacaoAtiva = true;
+            estadoPlanejadorViagens = "partida-chegada";
+            break;
+        case "baldeacao":
+            baldeacaoAtiva = true;
 
-			gerarTabelaLinhasBaldeacao();
+            gerarTabelaLinhasBaldeacao();
 
-			mensagem.style.height = '20px';
-			mensagem.innerHTML = "<div><span class='icon'>i</span>Selecione duas linhas para formar uma rota.</div>";
+            mensagem.style.height = '20px';
+            mensagem.innerHTML = "<div><span class='icon'>i</span>Selecione duas linhas para formar uma rota.</div>";
 
-			estadoPlanejadorViagens = "baldeacao";
-		break;
-	}
+            estadoPlanejadorViagens = "baldeacao";
+            break;
+    }
 }
 
 /*
@@ -138,21 +142,21 @@ function mudarEstadoPlanejadorViajens(estadoAtual) {
 /* Gera uma tabela com uma lista de nomes das linhas que são próximas a partida */
 function gerarTabelaLinhasProximasPartida() {
 
-	//Buscar as linhas que tem os pontos mais proximos a partida
-	var listaLinhasProximasPartida = melhorPontoLinha(pontoPartida);
-	var out = "";
-	var idLinha = 0;
+    //Buscar as linhas que tem os pontos mais proximos a partida
+    var listaLinhasProximasPartida = melhorPontoLinha(pontoPartida);
+    var out = "";
+    var idLinha = 0;
 
-	out = "<table><tr><th>Linhas próximas a <span class='cor-origem'>partida</span></th></tr>";
+    out = "<table><tr><th>Linhas próximas a <span class='cor-origem'>partida</span></th></tr>";
 
-	//Exibe todas as linhas
-	for (var i = 0; i < listaLinhasProximasPartida.length; i++) {
-	    idLinha = listaLinhasProximasPartida[i].linha;
-	    out += "<tr><td onClick='selecionaLinha(this,\"partida\"," + idLinha + ")'>" + obj.Linhas[idLinha].nome + "</td></tr>";
-	}
+    //Exibe todas as linhas
+    for (var i = 0; i < listaLinhasProximasPartida.length; i++) {
+        idLinha = listaLinhasProximasPartida[i].linha;
+        out += "<tr><td onClick='selecionaLinha(this,\"partida\"," + idLinha + ")'>" + obj.Linhas[idLinha].nome + "</td></tr>";
+    }
 
-	out  += "</table>";
-	listaMelhoresLinhas.innerHTML = out;
+    out += "</table>";
+    listaMelhoresLinhas.innerHTML = out;
 }
 
 /* Gera uma tabela com uma lista de nomes das linhas que são próximas a partida e a chegada */
@@ -188,34 +192,34 @@ function gerarTabelaLinhasProximasPartidaChegada() {
 /* Gera duas tabelas com os nomes das linhas que estão próximas a partida e chegada */
 function gerarTabelaLinhasBaldeacao() {
 
-	//Buscar as linhas que tem os pontos mais proximos a partida e chegada
-	var listaLinhasProximasPartida = melhorPontoLinha(pontoPartida);
-	var listaLinhasProximasChegada = melhorPontoLinha(pontoChegada);
-	var out = "";
+    //Buscar as linhas que tem os pontos mais proximos a partida e chegada
+    var listaLinhasProximasPartida = melhorPontoLinha(pontoPartida);
+    var listaLinhasProximasChegada = melhorPontoLinha(pontoChegada);
+    var out = "";
 
-	var idLinha = 0;
+    var idLinha = 0;
 
-	out = "<table style='width: 50%; float:left'><tr><th>Linhas próximas a <span class='cor-origem'>partida</span></th></tr>";
+    out = "<table style='width: 50%; float:left'><tr><th>Linhas próximas a <span class='cor-origem'>partida</span></th></tr>";
 
-	//Exibe todas as linhas
-	for (var i = 0; i < listaLinhasProximasPartida.length; i++) {
-	    idLinha = listaLinhasProximasPartida[i].linha;
-	    out += "<tr><td onClick='selecionaLinha(this,\"baldeacao-partida\"," + idLinha + ")'>" + obj.Linhas[idLinha].nome + "</td></tr>";
-	}
+    //Exibe todas as linhas
+    for (var i = 0; i < listaLinhasProximasPartida.length; i++) {
+        idLinha = listaLinhasProximasPartida[i].linha;
+        out += "<tr><td onClick='selecionaLinha(this,\"baldeacao-partida\"," + idLinha + ")'>" + obj.Linhas[idLinha].nome + "</td></tr>";
+    }
 
-	out  += "</table>";
-	listaMelhoresLinhas.innerHTML = out;
+    out += "</table>";
+    listaMelhoresLinhas.innerHTML = out;
 
-	out = "<table style='width: 50%; float:left'><tr><th>Linhas próximas a <span class='cor-destino'>chegada</span></th></tr>";
+    out = "<table style='width: 50%; float:left'><tr><th>Linhas próximas a <span class='cor-destino'>chegada</span></th></tr>";
 
-	//Exibe todas as linhas
-	for (var i = 0; i < listaLinhasProximasChegada.length; i++) {
-	    idLinha = listaLinhasProximasChegada[i].linha;
-	    out += "<tr><td onClick='selecionaLinha(this,\"baldeacao-chegada\"," + idLinha + ")'>" + obj.Linhas[idLinha].nome + "</td></tr>";
-	}
+    //Exibe todas as linhas
+    for (var i = 0; i < listaLinhasProximasChegada.length; i++) {
+        idLinha = listaLinhasProximasChegada[i].linha;
+        out += "<tr><td onClick='selecionaLinha(this,\"baldeacao-chegada\"," + idLinha + ")'>" + obj.Linhas[idLinha].nome + "</td></tr>";
+    }
 
-	out  += "</table><button style='width: 100%' onclick='mudarEstadoPlanejadorViajens(\"partida-chegada\")'>Voltar para melhores linhas </button>";
-	listaMelhoresLinhas.innerHTML += out;
+    out += "</table><button style='width: 100%' onclick='mudarEstadoPlanejadorViajens(\"partida-chegada\")'>Voltar para melhores linhas </button>";
+    listaMelhoresLinhas.innerHTML += out;
 
 }
 
@@ -249,7 +253,7 @@ function selecionaLinha(elementLinha, tipoLinhaSelecionada, idLinha) {
 
             linhaSelecionadaPartida.setAttribute("class", "linha-selecionada-partida");
 
-            if (antigaLinhaSelecionadaPartida != "") {
+            if (antigaLinhaSelecionadaPartida !== "") {
                 antigaLinhaSelecionadaPartida.removeAttribute("class");
             }
 
@@ -269,7 +273,7 @@ function selecionaLinha(elementLinha, tipoLinhaSelecionada, idLinha) {
 
             linhaSelecionadaPartidaChegada.setAttribute("class", "linha-selecionada-partida");
 
-            if (antigaLinhaSelecionadaPartidaChegada != "") {
+            if (antigaLinhaSelecionadaPartidaChegada !== "") {
                 antigaLinhaSelecionadaPartidaChegada.removeAttribute("class");
             }
 
@@ -289,7 +293,7 @@ function selecionaLinha(elementLinha, tipoLinhaSelecionada, idLinha) {
 
             linhaSelecionadaBaldeacaoPartida.setAttribute("class", "linha-selecionada-partida");
 
-            if (antigaLinhaSelecionadaBaldeacaoPartida != "") {
+            if (antigaLinhaSelecionadaBaldeacaoPartida !== "") {
                 antigaLinhaSelecionadaBaldeacaoPartida.removeAttribute("class");
             }
 
@@ -309,7 +313,7 @@ function selecionaLinha(elementLinha, tipoLinhaSelecionada, idLinha) {
 
             linhaSelecionadaBaldeacaoChegada.setAttribute("class", "linha-selecionada-chegada");
 
-            if (antigaLinhaSelecionadaBaldeacaoChegada != "") {
+            if (antigaLinhaSelecionadaBaldeacaoChegada !== "") {
                 antigaLinhaSelecionadaBaldeacaoChegada.removeAttribute("class");
             }
 
@@ -404,7 +408,9 @@ function desenhaLinha(idLinha) {
     //Percorre todos os pontos
     for (var i = 0; i < obj.Linhas[idLinha].sentidos[0].pontos.length; i++) {
 
-        var marker = L.marker([obj.Linhas[idLinha].sentidos[0].pontos[i].lat, obj.Linhas[idLinha].sentidos[0].pontos[i].long], { icon: busIcon });
+        var marker = L.marker([obj.Linhas[idLinha].sentidos[0].pontos[i].lat, obj.Linhas[idLinha].sentidos[0].pontos[i].long], {
+            icon: busIcon
+        });
 
         //Adiciona o ponto no mapa
         markers.addLayer(marker);

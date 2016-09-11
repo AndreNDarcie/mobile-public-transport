@@ -7,7 +7,7 @@
 //sessionStorage.setItem('indice-favoritos', 0);
 
 //Le o JSON do arquivo database.json
-var obj = pontosDB
+var obj = pontosDB;
 
 var busIcon = L.icon({
     iconUrl: 'img/marcador.png',
@@ -74,7 +74,7 @@ var mark5 = L.marker([0, 0]);
 
 var linhaSelecionada = -1;
 
-if (sessionStorage.getItem('linha-selecionada') != null) {
+if (sessionStorage.getItem('linha-selecionada') !== null) {
     console.log(sessionStorage.getItem('linha-selecionada'));
 
     for (var i = 0; i < obj.Linhas.length; i++) {
@@ -86,7 +86,7 @@ if (sessionStorage.getItem('linha-selecionada') != null) {
         }
     }
 
-    
+
 }
 
 function desenhaOptions() {
@@ -116,7 +116,9 @@ function desenhaOptions() {
 var botaoFavorito = document.getElementById("fav");
 var comboLinhas = document.getElementById("comboLinhas");
 
-comboLinhas.onclick = function () { desenhaBotaoFavoritos(), desenhaLinha(-1, -1, -1, false, '0') };
+comboLinhas.onclick = function() {
+    desenhaBotaoFavoritos(), desenhaLinha(-1, -1, -1, false, '0')
+};
 
 function desenhaBotaoFavoritos() {
 
@@ -133,7 +135,7 @@ function desenhaBotaoFavoritos() {
         }
     }
 
-    if (jaExiste == true) {
+    if (jaExiste === true) {
         botaoFavorito.innerHTML = "✮";
     } else {
         botaoFavorito.innerHTML = "✰";
@@ -190,7 +192,7 @@ var posicaoOrigem;
 map.on('click', function (e) {
 
     marcadorDinamico = e.latlng;
-    
+
 
     if (pontos == 2) {
         pontos = 0;
@@ -246,7 +248,7 @@ function desenhaPopUpPontoOrigemDestino(alvo, todasLinhas) {
         /* Desenha a tabela com as linhas proximas a origem */
 
         out += "<table style=\"background-color: #F3F3F2; width:100%; text-align: center;\"> " +
-              "<tr style=\"background-color: #3498db; color: white;\"> <th>Linhas Prox Origem</th> <th>Tempo Total em minutos</th> </tr>";
+            "<tr style=\"background-color: #3498db; color: white;\"> <th>Linhas Prox Origem</th> <th>Tempo Total em minutos</th> </tr>";
 
         for (var i = 0; i < linhasProximasOrigem.length; i++) {
             if (linhasProximasOrigem[i].baldeacao) {
@@ -266,7 +268,7 @@ function desenhaPopUpPontoOrigemDestino(alvo, todasLinhas) {
         /* Desenha a tabela com as linhas proximas a origem e destino */
 
         out += "<table style=\"background-color: #F3F3F2; width:100%; text-align: center;\"> " +
-              "<tr style=\"background-color: #3498db; color: white;\"> <th>Melhores linhas</th> <th>Tempo Total em minutos</th> </tr>";
+            "<tr style=\"background-color: #3498db; color: white;\"> <th>Melhores linhas</th> <th>Tempo Total em minutos</th> </tr>";
 
         for (var i = 0; i < linhasOrigemDestino.length; i++) {
             out += "<tr style=\"background-color: #E6E6E6; cursor: pointer;\"><td onClick=\"desenhaLinha(" + linhasOrigemDestino[i].linha + "," + linhasOrigemDestino[i].pontoOrigem + "," + linhasOrigemDestino[i].pontoDestino + "," + false + ",0)\">" + linhasOrigemDestino[i].nome + "</td> <td>" + parseInt(linhasOrigemDestino[i].distanciaTotal) + " - " + linhasOrigemDestino[i].pontoDestino + "</td> </tr>";
@@ -277,7 +279,7 @@ function desenhaPopUpPontoOrigemDestino(alvo, todasLinhas) {
         /* Desenha a tabela com as linhas proximas a destino */
 
         out += "<table style=\"background-color: #F3F3F2; width:100%; text-align: center;\"> " +
-              "<tr style=\"background-color: #3498db; color: white;\"> <th>Linhas Prox Destino</th> <th>Tempo Total em minutos</th> </tr>";
+            "<tr style=\"background-color: #3498db; color: white;\"> <th>Linhas Prox Destino</th> <th>Tempo Total em minutos</th> </tr>";
 
         for (var i = 0; i < linhasProximasDestino.length; i++) {
             if (linhasProximasDestino[i].baldeacao) {
@@ -302,14 +304,14 @@ buscando as informações no arquivo JSON.
 var numLinhasDesenhadas = 0;
 
 function desenhaLinha(flagLinha, PontoOrigem, PontoDestino, tipoBaldeacao, quem) {
-    
+
     var l = 0;
 
     if (flagLinha >= 0) {
         l = flagLinha;
         document.getElementById(flagLinha).selected = true;
 
-        if (tipoBaldeacao == true) {
+        if (tipoBaldeacao === true) {
             if (quem == "1") {
                 document.getElementById("origemLinha").innerHTML = obj.Linhas[flagLinha].nome;
             } else if (quem == "2") {
@@ -318,9 +320,9 @@ function desenhaLinha(flagLinha, PontoOrigem, PontoDestino, tipoBaldeacao, quem)
         }
 
     } else {
-       //Pega a linha selecionada no HTML
-       var x = document.getElementById("comboLinhas");
-       l = x.options[x.selectedIndex].value;
+        //Pega a linha selecionada no HTML
+        var x = document.getElementById("comboLinhas");
+        l = x.options[x.selectedIndex].value;
     }
 
     /*
@@ -341,8 +343,8 @@ function desenhaLinha(flagLinha, PontoOrigem, PontoDestino, tipoBaldeacao, quem)
         jaExiste = false;
     }
     */
-    
-    if (tipoBaldeacao == true) {
+
+    if (tipoBaldeacao === true) {
         switch (numLinhasDesenhadas) {
             case 0:
 
@@ -377,22 +379,32 @@ function desenhaLinha(flagLinha, PontoOrigem, PontoDestino, tipoBaldeacao, quem)
     for (var i = 0; i < obj.Linhas[l].sentidos[0].pontos.length; i++) {
 
         if (PontoOrigem == obj.Linhas[l].sentidos[0].pontos[i].id) {
-            var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], { icon: busIconProximo })
-                    .bindPopup(desenhaPopUpPontoLinha(1, l, i));
+            var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], {
+                    icon: busIconProximo
+                })
+                .bindPopup(desenhaPopUpPontoLinha(1, l, i));
 
         } else if (PontoDestino == obj.Linhas[l].sentidos[0].pontos[i].id) {
-            var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], { icon: busIconProximo })
-                    .bindPopup(desenhaPopUpPontoLinha(2, l, i));
+            var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], {
+                    icon: busIconProximo
+                })
+                .bindPopup(desenhaPopUpPontoLinha(2, l, i));
         } else {
             if (quem == 1) {
-                var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], { icon: busIconBlue })
-                        .bindPopup(desenhaPopUpPontoLinha(0, l, i));
+                var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], {
+                        icon: busIconBlue
+                    })
+                    .bindPopup(desenhaPopUpPontoLinha(0, l, i));
             } else if (quem == 2) {
-                var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], { icon: busIconRed })
-                        .bindPopup(desenhaPopUpPontoLinha(0, l, i));
+                var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], {
+                        icon: busIconRed
+                    })
+                    .bindPopup(desenhaPopUpPontoLinha(0, l, i));
             } else {
-                var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], { icon: busIcon })
-                        .bindPopup(desenhaPopUpPontoLinha(0, l, i));
+                var marker = L.marker([obj.Linhas[l].sentidos[0].pontos[i].lat, obj.Linhas[l].sentidos[0].pontos[i].long], {
+                        icon: busIcon
+                    })
+                    .bindPopup(desenhaPopUpPontoLinha(0, l, i));
             }
         }
 
@@ -412,21 +424,21 @@ function desenhaPopUpPontoLinha(tipoPonto, linha, idPonto) {
      * 2 - proximo destino
      * 3 - desembarque baldeaçao
      * 4 - embarque baldeação
-     * 
+     *
      */
 
     switch (tipoPonto) {
         case 1: //proximo origem
-                out = "<p style=\"text-align: center; font-size: 20px; color: blue; \">Próximo Origem</p>";
+            out = "<p style=\"text-align: center; font-size: 20px; color: blue; \">Próximo Origem</p>";
             break;
         case 2: //proximo destino
-                out = "<p style=\"text-align: center; font-size: 20px; color: red; \">Próximo Destino</p>";
+            out = "<p style=\"text-align: center; font-size: 20px; color: red; \">Próximo Destino</p>";
             break;
         case 3: //desembarque baldeaçao
-                out = "<p style=\"text-align: center; font-size: 20px; color: blue; \">Desembarque baldeaçao</p>";
+            out = "<p style=\"text-align: center; font-size: 20px; color: blue; \">Desembarque baldeaçao</p>";
             break;
         case 4: //embarque baldeação
-                out = "<p style=\"text-align: center; font-size: 20px; color: red; \">Embarque baldeaçao</p>";
+            out = "<p style=\"text-align: center; font-size: 20px; color: red; \">Embarque baldeaçao</p>";
             break;
     }
 
@@ -438,7 +450,7 @@ function desenhaPopUpPontoLinha(tipoPonto, linha, idPonto) {
 
     for (var i = 0; i < 4; i++) {
         out += "<tr> <td>" + obj.Linhas[linha].sentidos[0].pontos[idPonto].numero + "</td> <td>" + obj.Linhas[linha].sentidos[0].pontos[idPonto].horariosSegSex[i] +
-        "</td> <td>" + obj.Linhas[linha].sentidos[0].pontos[idPonto].bairro + "</td> </tr>";
+            "</td> <td>" + obj.Linhas[linha].sentidos[0].pontos[idPonto].bairro + "</td> </tr>";
     }
 
     out += "</table>";
@@ -459,12 +471,18 @@ function leitor() {
     var linhasOrigemDestino = [];
     var i = 0;
 
-    for (var x = 0; x < quantidadeLinhas; x++){
+    for (var x = 0; x < quantidadeLinhas; x++) {
         for (var y = 0; y < quantidadeLinhas; y++) {
             if (linhasProximasOrigem[x].linha == linhasProximasDestino[y].linha) {
                 linhasProximasOrigem[x].baldeacao = 0;
                 linhasProximasDestino[y].baldeacao = 0;
-                linhasOrigemDestino[i] = { linha: linhasProximasOrigem[x].linha, nome: obj.Linhas[linhasProximasOrigem[x].linha].nome, pontoOrigem: linhasProximasOrigem[x].pontoId, pontoDestino: linhasProximasDestino[y].pontoId, distanciaTotal: (linhasProximasOrigem[x].distancia + linhasProximasDestino[y].distancia) };
+                linhasOrigemDestino[i] = {
+                    linha: linhasProximasOrigem[x].linha,
+                    nome: obj.Linhas[linhasProximasOrigem[x].linha].nome,
+                    pontoOrigem: linhasProximasOrigem[x].pontoId,
+                    pontoDestino: linhasProximasDestino[y].pontoId,
+                    distanciaTotal: (linhasProximasOrigem[x].distancia + linhasProximasDestino[y].distancia)
+                };
                 i++;
                 console.log("LinhaProxOrigem: " + linhasProximasOrigem[x].linha + " - linhaProxDestino: " + linhasProximasDestino[y].linha + "-  linhasOrigem: " + linhasProximasOrigem[x].distancia + " linhasDestino: " + linhasProximasDestino[y].distancia + " total: " + (linhasProximasOrigem[x].distancia + linhasProximasDestino[y].distancia));
             }
@@ -487,7 +505,7 @@ function leitor() {
 
 
 
-    linhasOrigemDestino.sort(function (a, b) {
+    linhasOrigemDestino.sort(function(a, b) {
         if (a.distanciaTotal < b.distanciaTotal)
             return -1;
         if (a.distanciaTotal > b.distanciaTotal)
@@ -504,7 +522,11 @@ function leitor() {
     //    printLinhasOrigemDestino[i] = { nome: obj.Linhas[linhasOrigemDestino[i].linha].nome, distanciaTotal: linhasOrigemDestino[i].distanciaTotal };
     //}
     calcularTempo(linhasOrigemDestino);
-    var todasLinhas = { linhasOrigemDestino: linhasOrigemDestino, linhasProximasOrigem: linhasProximasOrigem, linhasProximasDestino: linhasProximasDestino}
+    var todasLinhas = {
+        linhasOrigemDestino: linhasOrigemDestino,
+        linhasProximasOrigem: linhasProximasOrigem,
+        linhasProximasDestino: linhasProximasDestino
+    }
     return todasLinhas;
 }
 
@@ -526,42 +548,48 @@ function melhorPontoLinha(PontoA) {
         //Le todos os sentidos
         //for (var b = 0; b < obj.Linhas[a].sentidos.length; b++) {
 
-            //Le todos os pontos
-            for (var c = 0; c < obj.Linhas[a].sentidos[b].pontos.length; c++) {
+        //Le todos os pontos
+        for (var c = 0; c < obj.Linhas[a].sentidos[b].pontos.length; c++) {
 
-                var PontoB = L.latLng(obj.Linhas[a].sentidos[b].pontos[c].lat, obj.Linhas[a].sentidos[b].pontos[c].long);
-                var distanciaMetros = PontoA.distanceTo(PontoB);
+            var PontoB = L.latLng(obj.Linhas[a].sentidos[b].pontos[c].lat, obj.Linhas[a].sentidos[b].pontos[c].long);
+            var distanciaMetros = PontoA.distanceTo(PontoB);
 
-                
-                var tempoMinutosDistancia = distanciaMetros / velocidadeMedia;
-                var horarioProximaParada = obj.Linhas[a].sentidos[b].pontos[c].horariosSegSex[0];
-                
-                //Separada do texto hora e minutos e converte para inteiro
-                var hora = parseInt(horarioProximaParada[0] + horarioProximaParada[1]);
-                var minuto = parseInt(horarioProximaParada[3] + horarioProximaParada[4]);
 
-                var hora2 = parseInt(horarioAtual[0] + horarioAtual[1]);
-                var minuto2 = parseInt(horarioAtual[3] + horarioAtual[4]);
+            var tempoMinutosDistancia = distanciaMetros / velocidadeMedia;
+            var horarioProximaParada = obj.Linhas[a].sentidos[b].pontos[c].horariosSegSex[0];
 
-                //Converte as horas e minutos para minutos
-                var horarioProximaParadaMinutos = (hora * 60) + minuto;
-                var horarioAtualMinutos = (hora2 * 60) + minuto2;
+            //Separada do texto hora e minutos e converte para inteiro
+            var hora = parseInt(horarioProximaParada[0] + horarioProximaParada[1]);
+            var minuto = parseInt(horarioProximaParada[3] + horarioProximaParada[4]);
 
-                //Calcula o valor total em minutos, considerando tempo de espera e tempo de caminhada
-                var tempoTotalPonto = tempoMinutosDistancia + (horarioProximaParadaMinutos - horarioAtualMinutos);
+            var hora2 = parseInt(horarioAtual[0] + horarioAtual[1]);
+            var minuto2 = parseInt(horarioAtual[3] + horarioAtual[4]);
 
-                if (tempoTotalPonto < menorTempoTotalPonto) {
-                    menorTempoTotalPonto = tempoTotalPonto;
-                    var pontoId = obj.Linhas[a].sentidos[b].pontos[c].id;
-                }
+            //Converte as horas e minutos para minutos
+            var horarioProximaParadaMinutos = (hora * 60) + minuto;
+            var horarioAtualMinutos = (hora2 * 60) + minuto2;
+
+            //Calcula o valor total em minutos, considerando tempo de espera e tempo de caminhada
+            var tempoTotalPonto = tempoMinutosDistancia + (horarioProximaParadaMinutos - horarioAtualMinutos);
+
+            if (tempoTotalPonto < menorTempoTotalPonto) {
+                menorTempoTotalPonto = tempoTotalPonto;
+                var pontoId = obj.Linhas[a].sentidos[b].pontos[c].id;
             }
+        }
         //}
 
-        listaMelhoresPontos[a] = { linha: a, pontoId: pontoId, distancia: menorTempoTotalPonto, ponto: PontoB, baldeacao: 1 };
+        listaMelhoresPontos[a] = {
+            linha: a,
+            pontoId: pontoId,
+            distancia: menorTempoTotalPonto,
+            ponto: PontoB,
+            baldeacao: 1
+        };
         menorTempoTotalPonto = Number.POSITIVE_INFINITY;
     }
 
-    listaMelhoresPontos.sort(function (a, b) {
+    listaMelhoresPontos.sort(function(a, b) {
         if (a.distancia < b.distancia)
             return -1;
         if (a.distancia > b.distancia)
@@ -609,7 +637,7 @@ function calcularTempo(linhasOrigemDestino) {
         }
     }
 
-   console.log("++++++++++++++ TempoTotal: " + tempoTotal);
+    console.log("++++++++++++++ TempoTotal: " + tempoTotal);
 
     /*
     for (var i = 0; i < linhasOrigemDestino.length; i++) {
