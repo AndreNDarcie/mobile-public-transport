@@ -140,11 +140,51 @@ function iniciarPlanejadorViagens() {
     //document.getElementById("origemDestino").style.display = 'none';
     document.getElementById("fav").style.display = 'none';
 
-    document.getElementById("planejador-viagens").style.display = 'block';
+    document.getElementById("mensagem-planejador-viagens").style.display = 'block';
+    document.getElementById("lista-melhores-linhas").style.display = 'block';
+    document.getElementById("lista-melhores-linhas").innerHTML = "";
+
+    var planejador_viagens = document.getElementById("planejador-viagens");
+    planejador_viagens.style.display = 'block';
+    planejador_viagens.onclick = function() {
+        finalizarPlanejadorViagens();
+    };
+
     mensagem.style.display = 'block';
 
     mensagem.innerHTML = "<div><span class='icon'>i</span>Toque no mapa para escolher o ponto de <span class='cor-origem'>partida</span>!</div>" +
         "<div style='font-size: 90%;'><input type='checkbox' value='GPS'> Local atual </div>";
+
+    //Remove a layer antiga com os marcadores
+    map.removeLayer(markers);
+    markers = new L.FeatureGroup();
+
+}
+
+function finalizarPlanejadorViagens(){
+
+  document.getElementById("menu-principal").style.display = 'block';
+  document.getElementById("comboLinhas").style.display = 'block';
+  document.getElementById("fav").style.display = 'block';
+
+  document.getElementById("planejador-viagens").style.display = 'none';
+  mensagem.style.display = 'none';
+
+  document.getElementById("mensagem-planejador-viagens").style.display = 'none';
+  document.getElementById("lista-melhores-linhas").style.display = 'none';
+
+  //Remove os pontos de partida e chegada do mapa
+  map.removeLayer(marcadorPartida);
+  map.removeLayer(marcadorChegada);
+
+  //Remove a layer antiga com os marcadores
+  map.removeLayer(markers);
+  markers = new L.FeatureGroup();
+
+  pontoAtual = "";
+  estadoPlanejadorViagens = "";
+  baldeacaoAtiva = false;
+
 }
 
 map.on('click', function(e) {
