@@ -2,6 +2,10 @@
 	PLANEJADOR DE VIAGENS
 */
 
+//Le o JSON do arquivo database.json
+var obj = pontosDB;
+var map;
+
 /* pontoAtual = "Partida" ou "Chegada" */
 var pontoAtual = "";
 var mensagem = document.getElementById("mensagem-planejador-viagens");
@@ -9,22 +13,6 @@ var listaMelhoresLinhas = document.getElementById("lista-melhores-linhas");
 var baldeacaoAtiva = false;
 
 var markers = new L.FeatureGroup();
-
-var busIconOrigem = L.icon({
-    iconUrl: 'img/marcador_blue.png',
-    iconRetinaUrl: 'img/marcador_blue.png',
-    iconSize: [25, 41],
-    iconAnchor: [17, 41],
-    popupAnchor: [-5, -40]
-});
-
-var busIconDestino = L.icon({
-    iconUrl: 'img/marcador_red.png',
-    iconRetinaUrl: 'img/marcador_red.png',
-    iconSize: [25, 41],
-    iconAnchor: [17, 41],
-    popupAnchor: [-5, -40]
-});
 
 /* Ponto de partida e de chegada como marcador */
 var marcadorPartida = L.marker([0, 0]);
@@ -34,12 +22,122 @@ var marcadorChegada = L.marker([0, 0]);
 var pontoPartida;
 var pontoChegada;
 
+desenhaOptions();
+iniciarMapa();
+
+function iniciarMapa() {
+    map = L.map("mapa").setView([-21.786, -46.566], 16);
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+
+    map.invalidateSize();
+}
+
+function desenhaOptions() {
+    var i = 0;
+    var select = document.getElementById('comboLinhas');
+    var nomeLinhas = [];
+
+    for (i = 0; i < obj.Linhas.length; i++) {
+        nomeLinhas.push(obj.Linhas[i].tipo + " - " + obj.Linhas[i].nome);
+    }
+
+    /*
+    var nomeLinhas = ["A001 - CIRCULAR CENTRO / TURISMO", "F208 - BAIRRO SOUZA LIMA / ESTAÇÃO CENTRAL", "F306 - INTEGRAÇÃO FAZENDA / ESTAÇÃO CENTRAL",
+		"LE 01 - PUC / PITÁGORAS", "LE 02 - UNIFAL / PITÁGORAS", "N11 - CORUJÃO COHAB", "N23 - CORUJÃO P. PRETA / P. COBERTA (SENTIDO P.COBERTA)",
+	    "N23 - CORUJÃO P. PRETA / P. COBERTA (SENTIDO P.PRETA)", "P21 - ESTAÇÃO SUL / ESTAÇÃO VILA NOVA", "P21 - ESTAÇÃO VILA NOVA / ESTAÇÃO SUL",
+	    "P21 - ESTAÇÃO VILA NOVA / ESTAÇÃO SUL"]
+    */
+
+    for (i = 0; i < nomeLinhas.length; i++) {
+        var opt = document.createElement('option');
+        opt.value = +i;
+        opt.innerHTML = nomeLinhas[i];
+        opt.id = opt.value;
+        select.appendChild(opt);
+    }
+}
+
+function melhorPontoLinha(PontoA) {
+
+    var menorDistancia = Number.POSITIVE_INFINITY;
+    var menorTempoTotalPonto = Number.POSITIVE_INFINITY;
+    var listaMelhoresPontos = [];
+    var horarioAtual = pegarHorarioAtual();
+    //var velocidadeMedia = 67; //metros por minuto
+    var velocidadeMedia = 30; //metros por minuto
+
+    var a;
+    var b = 0;
+
+    //Le todas as linhas
+    for (a = 0; a < obj.Linhas.length; a++) {
+
+        //Le todos os sentidos
+        //for (var b = 0; b < obj.Linhas[a].sentidos.length; b++) {
+
+        //Le todos os pontos
+        for (var c = 0; c < obj.Linhas[a].sentidos[b].pontos.length; c++) {
+
+            var PontoB = L.latLng(obj.Linhas[a].sentidos[b].pontos[c].lat, obj.Linhas[a].sentidos[b].pontos[c].long);
+            var distanciaMetros = PontoA.distanceTo(PontoB);
+
+
+            var tempoMinutosDistancia = distanciaMetros / velocidadeMedia;
+            var horarioProximaParada = obj.Linhas[a].sentidos[b].pontos[c].horariosSegSex[0];
+
+            //Separada do texto hora e minutos e converte para inteiro
+            var hora = parseInt(horarioProximaParada[0] + horarioProximaParada[1]);
+            var minuto = parseInt(horarioProximaParada[3] + horarioProximaParada[4]);
+
+            var hora2 = parseInt(horarioAtual[0] + horarioAtual[1]);
+            var minuto2 = parseInt(horarioAtual[3] + horarioAtual[4]);
+
+            //Converte as horas e minutos para minutos
+            var horarioProximaParadaMinutos = (hora * 60) + minuto;
+            var horarioAtualMinutos = (hora2 * 60) + minuto2;
+
+            //Calcula o valor total em minutos, considerando tempo de espera e tempo de caminhada
+            var tempoTotalPonto = tempoMinutosDistancia + (horarioProximaParadaMinutos - horarioAtualMinutos);
+
+            if (tempoTotalPonto < menorTempoTotalPonto) {
+                menorTempoTotalPonto = tempoTotalPonto;
+                var pontoId = obj.Linhas[a].sentidos[b].pontos[c].id;
+            }
+        }
+        //}
+
+        listaMelhoresPontos[a] = {
+            linha: a,
+            pontoId: pontoId,
+            distancia: menorTempoTotalPonto,
+            ponto: PontoB,
+            baldeacao: 1
+        };
+        menorTempoTotalPonto = Number.POSITIVE_INFINITY;
+    }
+
+    listaMelhoresPontos.sort(function(a, b) {
+        if (a.distancia < b.distancia)
+            return -1;
+        if (a.distancia > b.distancia)
+            return 1;
+        return 0;
+    });
+
+    return listaMelhoresPontos;
+
+}
+
+function pegarHorarioAtual() {
+    return "10:00";
+}
 
 function iniciarPlanejadorViagens() {
 
     document.getElementById("menu-principal").style.display = 'none';
     document.getElementById("comboLinhas").style.display = 'none';
-    document.getElementById("origemDestino").style.display = 'none';
+    //document.getElementById("origemDestino").style.display = 'none';
     document.getElementById("fav").style.display = 'none';
 
     document.getElementById("planejador-viagens").style.display = 'block';
