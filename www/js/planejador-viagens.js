@@ -25,6 +25,8 @@ var pontoChegada;
 desenhaOptions();
 iniciarMapa();
 
+var plan_trip = false;
+
 function iniciarMapa() {
     map = L.map("mapa").setView([-21.786, -46.566], 16);
 
@@ -135,6 +137,8 @@ function pegarHorarioAtual() {
 
 function iniciarPlanejadorViagens() {
 
+    plan_trip = true;
+
     document.getElementById("menu-principal").style.display = 'none';
     document.getElementById("comboLinhas").style.display = 'none';
     //document.getElementById("origemDestino").style.display = 'none';
@@ -163,6 +167,8 @@ function iniciarPlanejadorViagens() {
 
 function finalizarPlanejadorViagens(){
 
+  plan_trip = false;
+
   document.getElementById("menu-principal").style.display = 'block';
   document.getElementById("comboLinhas").style.display = 'block';
   document.getElementById("fav").style.display = 'block';
@@ -188,6 +194,8 @@ function finalizarPlanejadorViagens(){
 }
 
 map.on('click', function(e) {
+
+    if(plan_trip) {
 
     marcadorDinamico = e.latlng;
 
@@ -228,6 +236,8 @@ map.on('click', function(e) {
             pontoAtual = "";
         }
     }
+  }
+
 });
 
 /*
